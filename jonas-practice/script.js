@@ -361,41 +361,41 @@
 
 ////*LECTURE: Looping Arrays, Breaking and Continuing*////
 // 1. Let's bring back the 'populations' array from a previous assignment
-const populations = [330, 60, 33, 222];
+// const populations = [330, 60, 33, 222];
 // 2. Use a for loop to compute an array called 'percentages2' containing the
 // percentages of the world population for the 4 population values. Use the
 // function 'percentageOfWorld1' that you created earlier
-function percentageOfWorld1(population) {
-    return (population / 7900) * 100;
-}
+// function percentageOfWorld1(population) {
+//     return (population / 7900) * 100;
+// }
 // 3. Confirm that 'percentages2' contains exactly the same values as the
 // 'percentages' array that we created manually in the previous assignment,
 // and reflect on how much better this solution is
-const percentages = [];
-for (let i = 0; i < populations.length; i++) {
-    percentages.push(percentageOfWorld1(populations[i]));
+// const percentages = [];
+// for (let i = 0; i < populations.length; i++) {
+//     percentages.push(percentageOfWorld1(populations[i]));
 
-}
-console.log(percentages);
+// }
+// console.log(percentages);
 
 
 ////*LECTURE: Looping Backwards and Loops in Loops*////
 // 1. Store this array of arrays into a variable called 'listOfNeighbours'
 // [['Canada', 'Mexico'], ['Spain'], ['Norway', 'Sweden',
 // 'Russia']];
-const listOfNeighbours = [
-    ['Canada', 'Mexico'],
-    ['Spain'],
-    ['Norway', 'Sweden', 'Russia']
-];
+// const listOfNeighbours = [
+//     ['Canada', 'Mexico'],
+//     ['Spain'],
+//     ['Norway', 'Sweden', 'Russia']
+// ];
 
 // 2. Log only the neighbouring countries to the console, one by one, not the entire
 // arrays. Log a string like 'Neighbour: Canada' for each country
-for (let i = 0; i < listOfNeighbours.length; i++) {
-    for (let x = 0; x < listOfNeighbours[i].length; x++) {
-        console.log(`Neighbor: ${listOfNeighbours[i][x]}`);
-    }
-}
+// for (let i = 0; i < listOfNeighbours.length; i++) {
+//     for (let x = 0; x < listOfNeighbours[i].length; x++) {
+//         console.log(`Neighbor: ${listOfNeighbours[i][x]}`);
+//     }
+// }
 
 // 3. You will need a loop inside a loop for this. This is actually a bit tricky, so don't
 // worry if it's too difficult for you! But you can still try to figure this out anyway �
@@ -407,10 +407,213 @@ for (let i = 0; i < listOfNeighbours.length; i++) {
 // 2. Reflect on what solution you like better for this task: the for loop or the while
 // loop?
 
-const percentages3 = [];
-let i = 0;
-while (i < populations.length) {
-    percentages3.push(percentageOfWorld1(populations[i]));
-    i++;
+// const percentages3 = [];
+// let i = 0;
+// while (i < populations.length) {
+//     percentages3.push(percentageOfWorld1(populations[i]));
+//     i++;
+// }
+// console.log(percentages3);
+
+
+////////////////\\\\\\\\\\\\\\\\\//////////////////\\\\\\\\\\\\\\\\\\\\//////////////\\\\\\\\\\\\\\\\\\
+
+
+
+//////////// JavaScript Fundamentals – Part 1 \\\\\\\\\\\\
+
+
+////*Coding Challenge #1*////
+// Mark and John are trying to compare their BMI (Body Mass Index), which is 
+// calculated using the formula:
+// BMI = mass / height ** 2 = mass / (height * height) (mass in kg 
+// and height in meter).
+// Your tasks:
+// 1. Store Mark's and John's mass and height in variables
+//Data 1
+const heightMark = 1.69;
+const massMark = 78;
+const heightJohn = 1.95;
+const massJohn = 92;
+//Data 2
+// const heightMark = 1.88;
+// const massMark = 95;
+// const heightJohn = 1.76;
+// const massJohn = 85;
+// 2. Calculate both their BMIs using the formula (you can even implement both 
+// versions)
+const calcBMI = function (mass, height) {
+    return mass / height ** 2;
 }
-console.log(percentages3);
+const markBMI = massMark / heightMark ** 2;
+const johnBMI = massJohn / (heightJohn * heightJohn);
+
+console.log(markBMI, johnBMI);
+
+
+// 3. Create a Boolean variable 'markHigherBMI' containing information about
+// whether Mark has a higher BMI than John.
+const markHigherBMI = markBMI > johnBMI;
+console.log(markHigherBMI);
+// Test data:
+// § Data 1: Marks weights 78 kg and is 1.69 m tall. John weights 92 kg and is 1.95
+// m tall.
+// § Data 2: Marks weights 95 kg and is 1.88 m tall. John weights 85 kg and is 1.76
+// m tall.
+
+
+////*Coding Challenge #2*////
+// Use the BMI example from Challenge #1, and the code you already wrote, and 
+// improve it.
+// Your tasks:
+// 1. Print a nice output to the console, saying who has the higher BMI. The message 
+// is either "Mark's BMI is higher than John's!" or "John's BMI is higher than Mark's!"
+if (markHigherBMI === true) {
+    console.log(`Mark's BMI is higher than John's!`);
+} else {
+    console.log(`John's BMI is higher than Mark's!`);
+}
+// 2. Use a template literal to include the BMI values in the outputs. Example: "Mark's
+// BMI (28.3) is higher than John's (23.9)!"
+if (markBMI > johnBMI) {
+    console.log(`Mark's BMI (${markBMI}) is higher than John's (${johnBMI})!`)
+} else {
+    console.log(`Johns's BMI (${johnBMI}) is higher than Mark's (${markBMI})!`)
+}
+// Hint: Use an if/else statement
+
+
+////*Coding Challenge #3*////
+// There are two gymnastics teams, Dolphins and Koalas. They compete against each 
+// other 3 times. The winner with the highest average score wins a trophy!
+// Your tasks:
+// 1. Calculate the average score for each team, using the test data below
+// const averageDolphins = (96 + 108 + 89) / 3;
+// const averageKoalas = (88 + 91 + 110) / 3;
+// const averageScore = function (x, y, z) {
+//     return (x + y + z) / 3;
+// }
+// console.log(`Dolphins`, averageDolphins);
+// console.log(`Koalas`, averageKoalas);
+// 2. Compare the team's average scores to determine the winner of the competition,
+// and print it to the console. Don't forget that there can be a draw, so test for that
+// as well (draw means they have the same average score)
+// if (averageDolphins > averageKoalas) {
+//     console.log(`Dolphins had a higher average score of ${averageDolphins} so they are the winner.`);
+// } else if (averageKoalas > averageDolphins) {
+//     console.log(`Koalas had a higher average score of ${averageKoalas} so they are the winner.`);
+// } else {
+//     console.log(`There is no winner due to both averages scores being equal, so it's a tie.`);
+// }
+// 3. Bonus 1: Include a requirement for a minimum score of 100. With this rule, a
+// team only wins if it has a higher score than the other team, and the same time a
+// score of at least 100 points. Hint: Use a logical operator to test for minimum
+// score, as well as multiple else-if blocks �
+// const averageDolphins = (97 + 112 + 101) / 3;
+// const averageKoalas = (109 + 95 + 123) / 3;
+
+const averageDolphins = (97 + 112 + 101) / 3;
+const averageKoalas = (109 + 95 + 106) / 3;
+if (averageDolphins > averageKoalas && averageDolphins >= 100) {
+    console.log(`Dolphins had a higher average score of ${averageDolphins} so they are the winner.`);
+} else if (averageKoalas > averageDolphins && averageKoalas >= 100) {
+    console.log(`Koalas had a higher average score of ${averageKoalas} so they are the winner.`);
+} else if (averageDolphins > averageKoalas && averageDolphins < 100) {
+    console.log(`Dolphins had the higher average score of ${averageDolphins}, but it was less than 100`)
+} else if (averageKoalas > averageDolphins && averageKoalas < 100) {
+    console.log(`Koalas had the higher average score of ${averageKoalas}, but it was less than 100`)
+} else if (averageDolphins === averageKoalas && averageDolphins >= 100 && averageKoalas >= 100) {
+    console.log(`Both teams have an equal score over 100, so there is no winner only a tie`);
+} else {
+    console.log(`No one wins the trophy`);
+}
+
+// 4. Bonus 2: Minimum score also applies to a draw! So a draw only happens when
+// both teams have the same score and both have a score greater or equal 100
+// points. Otherwise, no team wins the trophy
+
+// Test data:
+// § Data 1: Dolphins score 96, 108 and 89. Koalas score 88, 91 and 110
+// § Data Bonus 1: Dolphins score 97, 112 and 101. Koalas score 109, 95 and 123
+// § Data Bonus 2: Dolphins score 97, 112 and 101. Koalas score 109, 95 and 106
+
+
+////*Coding Challenge #4*////
+// Steven wants to build a very simple tip calculator for whenever he goes eating in a 
+// restaurant. In his country, it's usual to tip 15% if the bill value is between 50 and 
+// 300. If the value is different, the tip is 20%.
+// Your tasks:
+// 1. Calculate the tip, depending on the bill value. Create a variable called 'tip' for 
+// this. It's not allowed to use an if/else statement � (If it's easier for you, you can 
+// start with an if/else statement, and then try to convert it to a ternary 
+// operator!)
+const bill1 = 275;
+const bill2 = 40;
+const bill3 = 430;
+const tipCalc = function (bill) {
+    const tip = bill >= 50 && bill <= 300 ? bill * .15 : bill * .20
+    return tip;
+}
+const tip1 = tipCalc(bill1);
+const tip2 = tipCalc(bill2);
+const tip3 = tipCalc(bill3);
+console.log(tip1);
+console.log(tip2);
+console.log(tip3);
+
+// 2. Print a string to the console containing the bill value, the tip, and the final value
+// (bill + tip). Example: “The bill was 275, the tip was 41.25, and the total value
+// 316.25”
+const total1 = tip1 + bill1;
+const total2 = tip2 + bill2;
+const total3 = tip3 + bill3;
+console.log(total1);
+
+const receipt1 = function () {
+    console.log(`The bill was ${bill1}, the tip was ${tip1}, and the total value is ${total1}.`);
+}
+const receipt2 = function () {
+    console.log(`The bill was ${bill2}, the tip was ${tip2}, and the total value is ${total2}.`);
+}
+const receipt3 = function () {
+    console.log(`The bill was ${bill3}, the tip was ${tip3}, and the total value is ${total3}.`);
+}
+receipt1();
+receipt2();
+receipt3();
+
+// Test data:
+// § Data 1: Test for bill values 275, 40 and 430
+// Hints:
+// § To calculate 20% of a value, simply multiply it by 20/100 = 0.2
+// § Value X is between 50 and 300, if it's >= 50 && <= 300
+
+
+
+////////////  JavaScript Fundamentals – Part 2  \\\\\\\\\\\\
+
+ 
+////*Coding Challenge #1*////
+// Back to the two gymnastics teams, the Dolphins and the Koalas! There is a new 
+// gymnastics discipline, which works differently.
+// Each team competes 3 times, and then the average of the 3 scores is calculated (so 
+// one average score per team).
+// A team only wins if it has at least double the average score of the other team. 
+// Otherwise, no team wins!
+// Your tasks:
+// 1. Create an arrow function 'calcAverage' to calculate the average of 3 scores
+// 2. Use the function to calculate the average for both teams
+// 3. Create a function 'checkWinner' that takes the average score of each team 
+// as parameters ('avgDolhins' and 'avgKoalas'), and then logs the winner 
+// to the console, together with the victory points, according to the rule above. 
+// Example: "Koalas win (30 vs. 13)"
+// 4. Use the 'checkWinner' function to determine the winner for both Data 1 and 
+// Data 2
+// 5. Ignore draws this time
+// Test data:
+// § Data 1: Dolphins score 44, 23 and 71. Koalas score 65, 54 and 49
+// § Data 2: Dolphins score 85, 54 and 41. Koalas score 23, 34 and 27
+// Hints:
+// § To calculate average of 3 values, add them all together and divide by 3
+// § To check if number A is at least double number B, check for A >= 2 * B. 
+// Apply this to the team's average scores
