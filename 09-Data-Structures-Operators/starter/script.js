@@ -65,27 +65,27 @@ const restaurant = {
 
 // Looping Objects: Object Keys, Values, and Entries
 // Property NAMES
-const properties = Object.keys(openingHours);
-console.log(properties);
+// const properties = Object.keys(openingHours);
+// console.log(properties);
 
-let openStr = `We are open on ${properties.length} days: `;
+// let openStr = `We are open on ${properties.length} days: `;
 
-for (const day of properties) {
-  openStr += `${day}, `;
-}
-console.log(openStr);
+// for (const day of properties) {
+//   openStr += `${day}, `;
+// }
+// console.log(openStr);
 
 // Property VALUES
-const values = Object.values(openingHours);
-console.log(values);
+// const values = Object.values(openingHours);
+// console.log(values);
 
 // Entries object
-const entries = Object.entries(openingHours);
-console.log(entries);
+// const entries = Object.entries(openingHours);
+// console.log(entries);
 
-for (const [key, { open, close }] of entries) {
-  console.log(`On ${key} we open at ${open} and close at ${close}`);
-}
+// for (const [key, { open, close }] of entries) {
+//   console.log(`On ${key} we open at ${open} and close at ${close}`);
+// }
 
 // const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
 // for (let i = 0; i < menu.length; i++) {
@@ -478,114 +478,366 @@ for (const [key, { open, close }] of entries) {
 //  Lewandowski: 2
 // }
 
-const game = {
-  team1: "Bayern Munich",
-  team2: "Borrussia Dortmund",
-  players: [
-    [
-      "Neuer",
-      "Pavard",
-      "Martinez",
-      "Alaba",
-      "Davies",
-      "Kimmich",
-      "Goretzka",
-      "Coman",
-      "Muller",
-      "Gnarby",
-      "Lewandowski",
-    ],
-    [
-      "Burki",
-      "Schulz",
-      "Hummels",
-      "Akanji",
-      "Hakimi",
-      "Weigl",
-      "Witsel",
-      "Hazard",
-      "Brandt",
-      "Sancho",
-      "Gotze",
-    ],
-  ],
-  score: "4:0",
-  scored: ["Lewandowski", "Gnarby", "Lewandowski", "Hummels"],
-  date: "Nov 9th, 2037",
-  odds: {
-    team1: 1.33,
-    x: 3.25,
-    team2: 6.5,
-  },
-};
+// const game = {
+//   team1: "Bayern Munich",
+//   team2: "Borrussia Dortmund",
+//   players: [
+//     [
+//       "Neuer",
+//       "Pavard",
+//       "Martinez",
+//       "Alaba",
+//       "Davies",
+//       "Kimmich",
+//       "Goretzka",
+//       "Coman",
+//       "Muller",
+//       "Gnarby",
+//       "Lewandowski",
+//     ],
+//     [
+//       "Burki",
+//       "Schulz",
+//       "Hummels",
+//       "Akanji",
+//       "Hakimi",
+//       "Weigl",
+//       "Witsel",
+//       "Hazard",
+//       "Brandt",
+//       "Sancho",
+//       "Gotze",
+//     ],
+//   ],
+//   score: "4:0",
+//   scored: ["Lewandowski", "Gnarby", "Lewandowski", "Hummels"],
+//   date: "Nov 9th, 2037",
+//   odds: {
+//     team1: 1.33,
+//     x: 3.25,
+//     team2: 6.5,
+//   },
+// };
 
-// 1)
-const goalScorers = game.scored.entries();
-for (const [goals, scorers] of goalScorers) {
-  console.log(`Goal ${goals + 1}, ${scorers}`);
-}
+// // 1)
+// const goalScorers = game.scored.entries();
+// for (const [goals, scorers] of goalScorers) {
+//   console.log(`Goal ${goals + 1}, ${scorers}`);
+// }
 
-// 2)
-const gameOddsCalc = Object.entries(game.odds);
-const oddCalc = function () {
-  let z = 0;
-  for (const [x, y] of gameOddsCalc) {
-    z += y;
+// // 2)
+// const gameOddsCalc = Object.entries(game.odds);
+// const oddCalc = function () {
+//   let z = 0;
+//   for (const [x, y] of gameOddsCalc) {
+//     z += y;
 
-    console.log(x, y, z);
-  }
-  return z / 3;
-};
-console.log(oddCalc());
+//     console.log(x, y, z);
+//   }
+// //   return z / 3;
+// };
+// // console.log(const odds = Object.values(game.odds);
+// let average = 0;
+// for (const odd of odds) {
+//   average += odd;
+// }
+
+// average /= odds.length;
+
+// console.log(average);oddCalc());
 // 2) other solution
-const odds = Object.values(game.odds);
-let average = 0;
-for (const odd of odds) {
-  average += odd;
-}
-
-average /= odds.length;
-
-console.log(average);
+//
 
 // 3) created a variable teamStr to check if x exists
-for (const [team, odd] of Object.entries(game.odds)) {
-  const teamStr = team === `x` ? `draw` : `victory  ${game[team]}`;
-  console.log(`Odd of ${teamStr} ${odd}`);
-}
+// for (const [team, odd] of Object.entries(game.odds)) {
+//   const teamStr = team === `x` ? `draw` : `victory  ${game[team]}`;
+//   console.log(`Odd of ${teamStr} ${odd}`);
+// }
 // Odd of victory Bayern Munich: 1.33
 // Odd of draw: 3.25
 // Odd of victory Borrussia Dortmund: 6.5
 
 // Sets
-const ordersSet = new Set([
-  `Pasta`,
-  `Pizza`,
-  `Pizza`,
-  `Risotto`,
-  `Pasta`,
-  `Pizza`,
-]);
-console.log(ordersSet);
+// const ordersSet = new Set([
+//   `Pasta`,
+//   `Pizza`,
+//   `Pizza`,
+//   `Risotto`,
+//   `Pasta`,
+//   `Pizza`,
+// ]);
+// console.log(ordersSet);
 
-console.log(new Set(`David`)); // d a v i d
-console.log(ordersSet.size); // 3
-console.log(ordersSet.has(`Pizza`));
-console.log(ordersSet.has(`Bread`));
-ordersSet.add(`Garlic Bread`);
-ordersSet.add(`Garlic Bread`);
-ordersSet.delete(`Risotta`);
+// console.log(new Set(`David`)); // d a v i d
+// console.log(ordersSet.size); // 3
+// console.log(ordersSet.has(`Pizza`));
+// console.log(ordersSet.has(`Bread`));
+// ordersSet.add(`Garlic Bread`);
+// ordersSet.add(`Garlic Bread`);
+// ordersSet.delete(`Risotta`);
 // ordersSet.clear();
-console.log(ordersSet);
+// console.log(ordersSet);
 
-for (const order of ordersSet) {
-  console.log(order);
-}
+// for (const order of ordersSet) {
+//   console.log(order);
+// }
 // Example
-const staff = [`Waiter`, `Chef`, `Waiter`, `Manager`, `Chef`, `Waiter`];
-const staffUnique = [...new Set(staff)]; // turns it into an array
-console.log(staffUnique);
-console.log(
-  new Set([[`Waiter`, `Chef`, `Waiter`, `Manager`, `Chef`, `Waiter`]].size)
-);
-console.log(new Set(`Jonasschmedtmann`).size); // 11
+// const staff = [`Waiter`, `Chef`, `Waiter`, `Manager`, `Chef`, `Waiter`];
+// const staffUnique = [...new Set(staff)]; // turns it into an array
+// console.log(staffUnique);
+// console.log(
+//   new Set([[`Waiter`, `Chef`, `Waiter`, `Manager`, `Chef`, `Waiter`]].size)
+// );
+// console.log(new Set(`Jonasschmedtmann`).size); // 11
+
+// MAPS Fundamentals
+// const rest = new Map();
+// rest.set(`name`, `Classico Italiano`);
+// rest.set(1, `Firenze, Italy`);
+// rest.set(2, `Lisbon, Portugal`);
+// console.log(rest);
+
+// rest
+//   .set(`categories`, [`Italian`, `Pizzeria`, `Vegetarian`, `Organic`])
+//   .set(`Open`, 11)
+//   .set(`Close`, 23)
+//   .set(true, `We are Open`)
+//   .set(false, `We are Closed`);
+
+// console.log(rest.get(`name`));
+// console.log(rest.get(true));
+
+// const time = 21;
+// console.log(rest.get(time > rest.get(`Open`) && time < rest.get(`Close`)));
+
+// console.log(rest.has(`categories`));
+// rest.delete(2); // deletes the key
+// const arr = [1, 2];
+// rest.set(arr, `Test`);
+// rest.set(document.querySelector(`h1`), `Heading`);
+// console.log(rest);
+// console.log(rest.size); // shows how many keys are in the map
+// // rest.clear(); // clears the map
+
+// console.log(rest.get(arr));
+
+// const question = new Map([
+//   [`question`, `What is the best programming language in the world?`],
+//   [1, `C`],
+//   [2, `Java`],
+//   [3, `JavaScript`],
+//   [`correct`, 3],
+//   [true, `Correct!`],
+//   [false, `Try again`],
+// ]);
+// console.log(question);
+
+// // Convert Object to Map
+// console.log(Object.entries(openingHours));
+// const hoursMap = new Map(Object.entries(openingHours));
+// console.log(hoursMap);
+
+// MAPS Iteration
+// console.log(question.get(`question`));
+// for (const [key, value] of question) {
+//   if (typeof key === `number`) {
+//     console.log(`Answer ${key}: ${value}`);
+//   }
+// }
+// const answer = Number(prompt(`Your answer`));
+// console.log(answer);
+// console.log(question.get(question.get(`correct`) === answer));
+// console.log(answer === 3 ? question.get(true) : question.get(false));
+
+// Convert MAP to array
+// console.log([...question]);
+// console.log(...question.entries());
+// console.log(...question.keys());
+// console.log(...question.values());
+
+// Which Data Structure to Use ?
+// 3 sources of data
+// -from the program itself (data written in source code)
+// -from the User Interface (data input from user or data written in DOM)
+// -from external sources (data fetched for example from web API)
+//
+// We also have collections of data that we have to store
+// We store them in data structures, 4 options to choose
+// If it's a simple list - Array or Sets
+// If it's key/value pairs - Objects or Maps (keys allow us to describe values
+//
+// Arrays vs Sets
+// Arrays -1) use when you need ordered list of values(might contain duplicates)
+// -2) use when you need to manipulate data
+// Sets -1) Use when you need to work with unique values
+// -2) use when high performance is really important
+// -3) use to remove duplicates from arrays
+//
+// Objects vs Maps
+//  Objects -1) More "traditional" key/value store("abused" objects)
+// -2) Easier to write and access values with . and []
+// -3) Use when you need to include functions(methods)
+// -4) Use when working with JSON (can convert to map)
+// Maps -1) Better performance
+// -2) Keys can have any data type
+// -3) easy to iterate
+// -4) easy to compute size
+// -5) Use when you simply need to map key to values
+// -6) Use when you need keys that are not strings
+
+///////////////////////////////////////////////////////////////////
+// Coding Challenge #3
+// Your tasks:
+// 1. Create an array 'events' of the different game events that happened (no
+// duplicates)
+// 2. After the game has finished, is was found that the yellow card from minute 64
+// was unfair. So remove this event from the game events log.
+// 3. Compute and log the following string to the console: "An event happened, on
+// average, every 9 minutes" (keep in mind that a game has 90 minutes)
+// 4. Loop over 'gameEvents' and log each element to the console, marking
+// whether it's in the first half or second half (after 45 min) of the game, like this:
+// [FIRST HALF] 17: ⚽ GOAL
+
+// const gameEvents = new Map([
+//   [17, "⚽ GOAL"],
+//   [36, "� Substitution"],
+//   [47, "⚽ GOAL"],
+//   [61, "� Substitution"],
+//   [64, "� Yellow card"],
+//   [69, "� Red card"],
+//   [70, "� Substitution"],
+//   [72, "� Substitution"],
+//   [76, "⚽ GOAL"],
+//   [80, "⚽ GOAL"],
+//   [92, "� Yellow card"],
+// ]);
+
+// 1)
+// const events = [...new Set(gameEvents.values())];
+// console.log(events);
+
+// 2)
+// gameEvents.delete(64);
+// console.log(gameEvents);
+
+// // 3)
+// console.log(
+//   `An event happened, on average, every ${90 / gameEvents.size} minutes`
+// );
+
+// 4)
+// for (const [key, value] of gameEvents) {
+//   if (key < 45) {
+//     console.log(`[FIRST HALF] ${key}: ${value}`);
+//   } else {
+//     console.log(`[SECOND HALF] ${key}: ${value}`);
+//   }
+// }
+
+// for (const [key, value] of gameEvents) {
+//   const half = key <= 45 ? `FIRST` : `SECOND`;
+//   console.log(`[${half} HALF] ${key}: ${value}`);
+// }
+//
+//
+// Working with Strings Part 1
+// const airLine = `TAP Air Portugal`;
+// const plane = `A320`;
+
+// console.log(plane[0]); // A
+// console.log(`B737`[0]); // B
+// console.log(airLine.length); // 16
+// console.log(`B737`.length); // 4
+
+// console.log(airLine.indexOf(`r`)); // 6
+// console.log(airLine.lastIndexOf(`r`)); // 10
+// console.log(airLine.indexOf(`Portugal`));
+
+// console.log(airLine.slice(4)); // Air Portugal
+// console.log(airLine.slice(4, 7)); // Air
+
+// console.log(airLine.slice(0, airLine.indexOf(` `))); // TAP
+// console.log(airLine.slice(airLine.lastIndexOf(` `) + 1)); // Portugal
+
+// console.log(airLine.slice(-2)); // al
+// console.log(airLine.slice(1, -1)); // AP Air Portuga
+
+// const checkMiddleSeat = function (seat) {
+//   // B and E are middle seats
+//   const s = seat.slice(-1);
+//   if (s === `B` || s === `E`) {
+//     console.log(`You got the middle seat.`);
+//   } else {
+//     console.log(`You got lucky`);
+//   }
+// };
+// checkMiddleSeat(`11B`);
+// checkMiddleSeat(`23C`);
+// checkMiddleSeat(`3E`);
+
+// Working with Strings Part 2
+const airLine = `TAP Air Portugal`;
+console.log(airLine.toLowerCase());
+console.log(airLine.toUpperCase());
+console.log(`david`.toUpperCase());
+
+// Fic capitalization in name
+const passenger = `dAvID`;
+const passengerLower = passenger.toLowerCase();
+const passengerCorrect =
+  passengerLower[0].toUpperCase() + passengerLower.slice(1);
+console.log(passengerCorrect);
+
+// Comparing Emails
+const email = `hello@david.io`;
+const loginEmail = `   Hello@David.Io  `;
+
+// const lowerEmail = loginEmail.toLowerCase(); // lowers the letters
+// const trimmedEmail = lowerEmail.trim(); // removes empty spaces in string
+
+const normalizedEmail = loginEmail.toLowerCase().trim();
+console.log(normalizedEmail);
+
+// replacing strings
+const priceGB = `288,97e`;
+const priceUS = priceGB.replace(`e`, `$`).replace(`,`, `.`);
+console.log(priceUS);
+
+const announcment = `All passengers come to boarding door 23, Boarding door 23!`;
+console.log(announcment.replace(`door`, `gate`));
+// console.log(announcment.replaceAll(`door`, `gate`));
+
+console.log(announcment.replace(/door/g, `gate`));
+
+// Booleans
+const plane = `Airbus A320neo`;
+console.log(plane.includes(`A320`)); // true
+console.log(plane.includes(`Boeing`)); // false
+console.log(plane.startsWith(`Air`)); // false
+
+if (plane.startsWith(`Airbus`) && plane.endsWith(`neo`)) {
+  console.log(`Part of the New Airbus family`);
+} // true
+
+// Practice Excercise
+const checkBaggage = function (items) {
+  const baggage = items.toLowerCase();
+  if (baggage.includes(`knife`) || baggage.includes(`gun`)) {
+    console.log(`You are not allowed onboard`);
+  } else {
+    console.log(`Welcome aboard`);
+  }
+};
+checkBaggage(`I have a laptop, some Food, and a pocket Knife`);
+checkBaggage(`Socks and camera`);
+checkBaggage(`Got some snacks and a gun for protection`);
+
+// Working with Strings Part 3
+// Split and Join
+console.log(`a+very+nice+string`.split(`+`)); // a, very, nice, string
+console.log(`David Flores`.split(` `));
+
+const [firstName, lastName] = `David Flores`.split(` `);
+
+const newName = [`Mr.`, firstName, lastName.toUpperCase()].join(` `);
+console.log(newName);
