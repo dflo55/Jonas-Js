@@ -1,81 +1,96 @@
 "use strict";
 
 // Data needed for a later exercise
-const flights =
-  "_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30";
+const flights = `_Delayed_Departure;fao93766109;txl2133758440;11:25
+  +_Arrival;bru0943384722;fao93766109;11:45
+  +_Delayed_Arrival;hel7439299980;fao93766109;12:05
+  +_Departure;fao93766109;lis2323639855;12:30`;
 
 const getCode = (str) => str.slice(0, 3).toUpperCase();
 
 for (const flight of flights.split(`+`)) {
   const [type, from, to, time] = flight.split(`;`);
-  const output = `${type.startsWith(`_Delayed`) ? `*` : ``}${type.replaceAll(
-    `_`,
-    ` `
-  )} from ${getCode(from)} to ${getCode(to)} (${time.replace(
+  const output = `${type.startsWith(`_Delayed`) ? `*` : " "} ${type
+    .replaceAll(`_`, ` `)
+    .trim()} from ${getCode(from)} to ${getCode(to)} (${time.replace(
     `:`,
     `h`
-  )})`.padStart(43);
+  )})`.padStart(50);
   console.log(output);
 }
-const weekdays = [
-  `monday`,
-  `tuesday`,
-  `wednesday`,
-  `thursday`,
-  `friday`,
-  `saturday`,
-  `sunday`,
-];
-const [monday, tuesday, wednesday, thursday, friday, saturday, sunday] =
-  weekdays;
 
-const openingHours = {
-  [weekdays[3]]: {
-    open: 12,
-    close: 22,
-  },
-  [weekdays[4]]: {
-    open: 11,
-    close: 23,
-  },
-  [saturday]: {
-    open: 0, // Open 24 hours
-    close: 24,
-  },
-};
+// const getCode = (str) => str.slice(0, 3).toUpperCase();
+
+// for (const flight of flights.split(`+`)) {
+//   const [type, from, to, time] = flight.split(`;`);
+//   const output = `${type.startsWith(`_Delayed`) ? `*` : ``}${type.replaceAll(
+//     `_`,
+//     ` `
+//   )} from ${getCode(from)} to ${getCode(to)} (${time.replace(
+//     `:`,
+//     `h`
+//   )})`.padStart(43);
+//   console.log(output);
+// }
+// const weekdays = [
+//   `monday`,
+//   `tuesday`,
+//   `wednesday`,
+//   `thursday`,
+//   `friday`,
+//   `saturday`,
+//   `sunday`,
+// ];
+// const [monday, tuesday, wednesday, thursday, friday, saturday, sunday] =
+//   weekdays;
+
+// const openingHours = {
+//   [weekdays[3]]: {
+//     open: 12,
+//     close: 22,
+//   },
+//   [weekdays[4]]: {
+//     open: 11,
+//     close: 23,
+//   },
+//   [saturday]: {
+//     open: 0, // Open 24 hours
+//     close: 24,
+//   },
+// };
 // console.log(openingHours);
 // Data needed for first part of the section
-const restaurant = {
-  name: "Classico Italiano",
-  location: "Via Angelo Tavanti 23, Firenze, Italy",
-  categories: ["Italian", "Pizzeria", "Vegetarian", "Organic"],
-  starterMenu: ["Focaccia", "Bruschetta", "Garlic Bread", "Caprese Salad"],
-  mainMenu: ["Pizza", "Pasta", "Risotto"],
+// const restaurant = {
+//   name: "Classico Italiano",
+//   location: "Via Angelo Tavanti 23, Firenze, Italy",
+//   categories: ["Italian", "Pizzeria", "Vegetarian", "Organic"],
+//   starterMenu: ["Focaccia", "Bruschetta", "Garlic Bread", "Caprese Salad"],
+//   mainMenu: ["Pizza", "Pasta", "Risotto"],
 
-  // ES3 enhanced object literals
-  openingHours,
+// ES3 enhanced object literals
+//   openingHours,
 
-  order(starterIndex, mainIndex) {
-    return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
-  },
+//   order(starterIndex, mainIndex) {
+//     return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+//   },
 
-  orderDelivery({ starterIndex = 1, mainIndex = 0, time = `20:00`, address }) {
-    console.log(
-      `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`
-    );
-  },
+//   orderDelivery({ starterIndex = 1, mainIndex = 0, time = `20:00`, address }) {
+//     console.log(
+//       `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`
+//     );
+//   },
 
-  orderPasta(ing1, ing2, ing3) {
-    console.log(
-      `Here is your delicious pasta with ${ing1}, ${ing2}, and ${ing3}.`
-    );
-  },
+//   orderPasta(ing1, ing2, ing3) {
+//     console.log(
+//       `Here is your delicious pasta with ${ing1}, ${ing2}, and ${ing3}.`
+//     );
+//   },
 
-  orderPizza(mainIngredient, ...otherIngredients) {
-    console.log(mainIngredient);
-    console.log(otherIngredients);
-  },
-};
+//   orderPizza(mainIngredient, ...otherIngredients) {
+//     console.log(mainIngredient);
+//     console.log(otherIngredients);
+//   },
+// };
 
 // Looping Objects: Object Keys, Values, and Entries
 // Property NAMES
@@ -922,8 +937,8 @@ const restaurant = {
 
 // convert under_score names into camelCase names
 
-document.body.append(document.createElement("textarea"));
-document.body.append(document.createElement("button"));
+// document.body.append(document.createElement("textarea"));
+// document.body.append(document.createElement("button"));
 
 // const conversion = function (names) {
 //   const text = document.querySelector(`textarea`);
@@ -939,17 +954,17 @@ document.body.append(document.createElement("button"));
 // console.log(conversion(`hello_world`));
 // console.log(conversion(`first_name`));
 
-document.querySelector(`button`).addEventListener(`click`, function () {
-  const text = document.querySelector(`textarea`).value;
-  const rows = text.split(`\n`);
-  console.log(rows);
+// document.querySelector(`button`).addEventListener(`click`, function () {
+//   const text = document.querySelector(`textarea`).value;
+//   const rows = text.split(`\n`);
+//   console.log(rows);
 
-  for (const [i, row] of rows.entries()) {
-    const [first, second] = row.toLowerCase().trim().split(`_`);
-    const output = `${first}${second.replace(
-      second[0],
-      second[0].toUpperCase()
-    )}`;
-    console.log(`${output.padEnd(20)}${`x`.repeat(i + 1)}`);
-  }
-});
+//   for (const [i, row] of rows.entries()) {
+//     const [first, second] = row.toLowerCase().trim().split(`_`);
+//     const output = `${first}${second.replace(
+//       second[0],
+//       second[0].toUpperCase()
+//     )}`;
+//     console.log(`${output.padEnd(20)}${`x`.repeat(i + 1)}`);
+//   }
+// });
