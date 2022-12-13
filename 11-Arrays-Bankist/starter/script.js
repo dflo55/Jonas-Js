@@ -2,6 +2,7 @@
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
+// 146. PROJECT: "Bankist" App
 // BANKIST APP
 
 // Data
@@ -61,6 +62,7 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
+// 147. Creating DOM Elements
 const displayMovements = function (movements) {
   containerMovements.innerHTML = ` `;
   movements.forEach(function (mov, i) {
@@ -68,7 +70,7 @@ const displayMovements = function (movements) {
 
     const html = `<div class="movements__row">
     <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
-    <div class="movements__value">${mov}</div>
+    <div class="movements__value">$${mov}</div>
   </div>`;
 
     containerMovements.insertAdjacentHTML(`afterbegin`, html);
@@ -76,6 +78,57 @@ const displayMovements = function (movements) {
 };
 displayMovements(account1.movements);
 
+// 151. Computing Usernames
+const createUsernames = function (accs) {
+  accs.forEach((acc) => {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(` `)
+      .map((name) => {
+        return name[0];
+      })
+      .join(``);
+  });
+};
+
+createUsernames(accounts);
+console.log(accounts);
+
+// 153. (continued from below) Reduce Method
+
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((acc, mov) => {
+    return acc + mov;
+  }, 0);
+  labelBalance.textContent = `$ ${balance} USD`;
+};
+calcDisplayBalance(account1.movements);
+
+// 155. (continued from below) The Magic of Chaining Methods
+
+const calcDisplaySummary = function (movements) {
+  const incomes = movements
+    .filter((mov) => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `$${incomes}`;
+
+  const out = movements
+    .filter((mov) => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `$${Math.abs(out)}`;
+
+  const interest = movements
+    .filter((mov) => mov > 0)
+    .map((deposit) => (deposit * 1.2) / 100)
+    .filter((int, i, arr) => {
+      console.log(arr);
+      return int >= 1;
+    })
+    .reduce((acc, int) => acc + int, 0);
+  labelSumInterest.textContent = `$${interest}`;
+};
+
+calcDisplaySummary(account1.movements);
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -183,6 +236,209 @@ displayMovements(account1.movements);
 // });
 // key is exactly the same as the value for Sets, Sets have no keys
 
-// 146. PROJECT: "Bankist" App
+// 149. Data transformations: map, filter, reduce
+// Map Method
+// similar to forEach method except it creates a new array based on original array
+// loops over an array and each iteration it applies a callback function that we specify
+// maps original array to a new array
+// map returns a new array containing the results of applying an operation on all original array elements
 
-// 147. Creating DOM Elements
+// Filter Method
+// filters elements in the original array that satisifies a certain condition
+// filter returns a new array containing the array elements that passed a specified test condition
+
+// Reduce Method
+// reduce boils(reduces) all aray elements down to one single value
+// (adding all elements together)
+// an accumulator is present
+// reduces single array to one single value
+// no new array in the end, only the reduced value is returned
+
+// 150. The Map Method
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// const euroToUsd = 1.1;
+
+// callback function as function
+// const movementsUsd = movements.map(function (mov) {
+//   return mov * euroToUsd;
+// });
+
+// callback function as arrow function
+// const movementsUsd = movements.map((mov) => {
+//   return mov * euroToUsd;
+// });
+
+// console.log(movements);
+// console.log(movementsUsd);
+
+// for of loop does the same thing however we must define an empty array and push the elements to create a new array
+// const movementsUSDfor = [];
+// for (const mov of movements) {
+//   movementsUSDfor.push(mov * euroToUsd);
+// }
+// console.log(movementsUSDfor);
+
+// Map method can access element, index, and array like the forEach method
+// const movementsDescription = movements.map(
+//   (mov, i) =>
+//     `Movement ${i + 1}: You ${mov > 0 ? `deposited` : `withdrew`} ${Math.abs(
+//       mov
+//     )})`
+
+// if (mov > 0) {
+
+//   return `Movement ${i + 1}: You deposited ${mov}`;
+// } else {
+//   return `Movement ${i + 1}: You withdrew ${Math.abs(mov)}`;
+// }
+// );
+// console.log(movementsDescription);
+
+// 152. The Filter Method
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// const deposits = movements.filter((mov) => {
+//   return mov > 0;
+// });
+// console.log(movements);
+// console.log(deposits);
+
+// The for of loop does the same thing as the filter method
+// const depositsFor = [];
+// for (const mov of movements) {
+//   if (mov > 0) {
+//     depositsFor.push(mov);
+//   }
+// }
+// console.log(depositsFor);
+
+// const withdrawals = movements.filter((mov) => {
+//   return mov < 0;
+// });
+// console.log(withdrawals);
+
+// 153. The Reduce Method
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// first parameter of reduce call back function is the accumulator
+// Must define what the accumulator starts at, we start at Zero(see below)
+// const balance = movements.reduce(function (acc, cur, i, arr) {
+//   console.log(`Iternation ${i}: ${acc}`);
+//   return acc + cur;
+// }, 0);
+// console.log(balance);
+
+// This is the same as the reduce method, we must create a global variable to store the numbers into
+// let balance2 = 0;
+// for (const mov of movements) {
+//   balance2 += mov;
+// }
+// console.log(balance2);
+
+// Get Maximum Value of Movements Array
+// const max = movements.reduce((acc, mov) => {
+//   if (acc > mov) {
+//     return acc;
+//   } else {
+//     return mov;
+//   }
+// }, movements[0]);
+// console.log(max);
+
+/////////// Working With Arrays \\\\\\\\\\\\\
+////////// Coding Challenge #1 \\\\\\\\\\\\\\
+// Julia and Kate are doing a study on dogs. So each of them asked 5 dog owners
+// about their dog's age, and stored the data into an array (one array for each). For
+// now, they are just interested in knowing whether a dog is an adult or a puppy.
+// A dog is an adult if it is at least 3 years old, and it's a puppy if it's less than 3 years
+// old.
+// Your tasks:
+// Create a function 'checkDogs', which accepts 2 arrays of dog's ages
+// ('dogsJulia' and 'dogsKate'), and does the following things:
+// 1. Julia found out that the owners of the first and the last two dogs actually have
+// cats, not dogs! So create a shallow copy of Julia's array, and remove the cat
+// ages from that copied array (because it's a bad practice to mutate function
+// parameters)
+// 2. Create an array with both Julia's (corrected) and Kate's data
+// 3. For each remaining dog, log to the console whether it's an adult ("Dog number 1
+// is an adult, and is 5 years old") or a puppy ("Dog number 2 is still a puppy
+// �
+// ")
+// 4. Run the function for both test datasets
+// Test data:
+// § Data 1: Julia's data [3, 5, 2, 12, 7], Kate's data [4, 1, 15, 8, 3]
+// § Data 2: Julia's data [9, 16, 6, 8, 3], Kate's data [10, 5, 6, 1, 4]
+// const dogsJulia = [3, 5, 2, 12, 7];
+// const dogsKate = [4, 1, 15, 8, 3];
+
+/*
+    // newDogsJulia.forEach(function (age, i) {
+    //   age >= 3
+    //     ? console.log(`Dog number ${i + 1} is an adult, and is ${age} years old`)
+    //     : console.log(
+    //         `Dog number ${i + 1} is still a puppy, and is ${age} years old`
+    //       );
+    // });
+    // newDogsKate.forEach(function (age, i) {
+    //   age >= 3
+    //     ? console.log(`Dog number ${i + 1} is an adult, and is ${age} years old`)
+    //     : console.log(
+    //         `Dog number ${i + 1} is still a puppy, and is ${age} years old`
+    //       );
+    // });
+  });
+};
+checkDogs(dogsJulia, dogsKate); */
+
+// 154.    Coding Challenge #2   \\\\\\\\
+// Let's go back to Julia and Kate's study about dogs. This time, they want to convert
+// dog ages to human ages and calculate the average age of the dogs in their study.
+// Your tasks:
+// Create a function 'calcAverageHumanAge', which accepts an arrays of dog's
+// ages ('ages'), and does the following things in order:
+// 1. Calculate the dog age in human years using the following formula: if the dog is
+// <= 2 years old, humanAge = 2 * dogAge. If the dog is > 2 years old,
+// humanAge = 16 + dogAge * 4
+// 2. Exclude all dogs that are less than 18 human years old (which is the same as
+// keeping dogs that are at least 18 years old)
+// 3. Calculate the average human age of all adult dogs (you should already know
+// from other challenges how we calculate averages �)
+// 4. Run the function for both test datasets
+// Test data:
+// § Data 1: [5, 2, 4, 1, 15, 8, 3]
+// § Data 2: [16, 6, 10, 5, 6, 1, 4]
+
+// const calcAverageHumanAge = function (ages) {
+//   const humanAgeConversion = ages.map((age) => {
+//     return age <= 2 ? age * 2 : 16 + age * 4;
+//   });
+//   const filterHumanAge = humanAgeConversion.filter((age) => {
+//     return age >= 18;
+//   });
+
+//   const averageAge =
+//     filterHumanAge.reduce((acc, adultAge) => {
+//       return acc + adultAge;
+//     }, 0) / filterHumanAge.length;
+
+//   return averageAge;
+// };
+
+// console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
+// console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
+
+// 155. The Magic of Chaining Methods
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const euroToUsd = 1.1;
+// Pipeline
+const totalDepositUsd = movements
+  .filter((mov) => mov > 0)
+  .map((mov) => mov * euroToUsd)
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(totalDepositUsd);
+// we can continue to chain methods as long as they return new arrays
+// filter returns a new array so we can chain another method after
+// map returns a new array so we can chain another method after
+// reduce returns a value so we cannot chain after reduce
+// We should not overuse chaining so we should try to use the methods sparingly
+// bad practice to chain a method that mutates an array
