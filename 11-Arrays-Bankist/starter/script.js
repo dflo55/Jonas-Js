@@ -91,9 +91,6 @@ const createUsernames = function (accs) {
   });
 };
 
-createUsernames(accounts);
-console.log(accounts);
-
 // 153. (continued from below) Reduce Method
 
 const calcDisplayBalance = function (movements) {
@@ -102,7 +99,6 @@ const calcDisplayBalance = function (movements) {
   }, 0);
   labelBalance.textContent = `$ ${balance} USD`;
 };
-calcDisplayBalance(account1.movements);
 
 // 155. (continued from below) The Magic of Chaining Methods
 
@@ -128,7 +124,6 @@ const calcDisplaySummary = function (movements) {
   labelSumInterest.textContent = `$${interest}`;
 };
 
-calcDisplaySummary(account1.movements);
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -428,17 +423,55 @@ checkDogs(dogsJulia, dogsKate); */
 // console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
 
 // 155. The Magic of Chaining Methods
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-const euroToUsd = 1.1;
-// Pipeline
-const totalDepositUsd = movements
-  .filter((mov) => mov > 0)
-  .map((mov) => mov * euroToUsd)
-  .reduce((acc, mov) => acc + mov, 0);
-console.log(totalDepositUsd);
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const euroToUsd = 1.1;
+// // Pipeline
+// const totalDepositUsd = movements
+//   .filter((mov) => mov > 0)
+//   .map((mov) => mov * euroToUsd)
+//   .reduce((acc, mov) => acc + mov, 0);
+// console.log(totalDepositUsd);
 // we can continue to chain methods as long as they return new arrays
 // filter returns a new array so we can chain another method after
 // map returns a new array so we can chain another method after
 // reduce returns a value so we cannot chain after reduce
 // We should not overuse chaining so we should try to use the methods sparingly
 // bad practice to chain a method that mutates an array
+
+// Coding Challenge #3
+// Rewrite the 'calcAverageHumanAge' function from Challenge #2, but this time
+// as an arrow function, and using chaining!
+// Test data:
+// § Data 1: [5, 2, 4, 1, 15, 8, 3]
+// § Data 2: [16, 6, 10, 5, 6, 1, 4]
+
+// const calcAverageHumanAge = (ages) => {
+//   const calculation = ages
+//     .map((age) => (age <= 2 ? age * 2 : 16 + age * 4))
+//     .filter((age) => age >= 18)
+//     .reduce((acc, adultAge, i, arr) => acc + adultAge / arr.length, 0);
+//   console.log(calculation);
+//   return calculation;
+// };
+// calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+
+// 157. The Find Method
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const firstWithdrawal = movements.find((mov) => mov < 0);
+// the find method returns a boolen
+// the find method wont return a new array
+// goal of find method is to find the one element that the condition is set to
+// the first element in the array that meets the condition of the callback function will be returned
+console.log(movements);
+console.log(firstWithdrawal);
+
+console.log(accounts);
+
+const account = accounts.find((acc) => acc.owner === `Jessica Davis`);
+console.log(account);
+
+for (const acc of accounts) {
+  if (acc.owner === `Jessica Davis`) {
+    console.log(acc);
+  }
+}
