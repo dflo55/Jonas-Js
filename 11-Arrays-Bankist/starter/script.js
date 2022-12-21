@@ -76,7 +76,6 @@ const displayMovements = function (movements) {
     containerMovements.insertAdjacentHTML(`afterbegin`, html);
   });
 };
-displayMovements(account1.movements);
 
 // 151. Computing Usernames
 const createUsernames = function (accs) {
@@ -90,6 +89,7 @@ const createUsernames = function (accs) {
       .join(``);
   });
 };
+createUsernames(accounts);
 
 // 153. (continued from below) Reduce Method
 
@@ -102,20 +102,20 @@ const calcDisplayBalance = function (movements) {
 
 // 155. (continued from below) The Magic of Chaining Methods
 
-const calcDisplaySummary = function (movements) {
-  const incomes = movements
+const calcDisplaySummary = function (acc) {
+  const incomes = acc.movements
     .filter((mov) => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumIn.textContent = `$${incomes}`;
 
-  const out = movements
+  const out = acc.movements
     .filter((mov) => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumOut.textContent = `$${Math.abs(out)}`;
 
-  const interest = movements
+  const interest = acc.movements
     .filter((mov) => mov > 0)
-    .map((deposit) => (deposit * 1.2) / 100)
+    .map((deposit) => (deposit * acc.interestRate) / 100)
     .filter((int, i, arr) => {
       console.log(arr);
       return int >= 1;
@@ -124,6 +124,34 @@ const calcDisplaySummary = function (movements) {
   labelSumInterest.textContent = `$${interest}`;
 };
 
+// 158. Implementing Login
+let currentAccount;
+
+btnLogin.addEventListener(`click`, function (e) {
+  // Prevents form from submitting
+  e.preventDefault();
+  currentAccount = accounts.find(
+    (acc) => acc.username === inputLoginUsername.value
+  );
+  console.log(currentAccount);
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    // display UI and welcome message
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(` `)[0]
+    }`;
+    containerApp.style.opacity = 100;
+
+    // clear input fields
+    inputLoginUsername.value = inputLoginPin.value = ` `;
+    inputLoginPin.blur();
+    // display movements
+    displayMovements(currentAccount.movements);
+    // display balance
+    calcDisplayBalance(currentAccount.movements);
+    // display summary
+    calcDisplaySummary(currentAccount);
+  }
+});
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -456,22 +484,22 @@ checkDogs(dogsJulia, dogsKate); */
 // calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
 
 // 157. The Find Method
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-const firstWithdrawal = movements.find((mov) => mov < 0);
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const firstWithdrawal = movements.find((mov) => mov < 0);
 // the find method returns a boolen
 // the find method wont return a new array
 // goal of find method is to find the one element that the condition is set to
 // the first element in the array that meets the condition of the callback function will be returned
-console.log(movements);
-console.log(firstWithdrawal);
+// console.log(movements);
+// console.log(firstWithdrawal);
 
-console.log(accounts);
+// console.log(accounts);
 
-const account = accounts.find((acc) => acc.owner === `Jessica Davis`);
-console.log(account);
+// const account = accounts.find((acc) => acc.owner === `Jessica Davis`);
+// console.log(account);
 
-for (const acc of accounts) {
-  if (acc.owner === `Jessica Davis`) {
-    console.log(acc);
-  }
-}
+// for (const acc of accounts) {
+//   if (acc.owner === `Jessica Davis`) {
+//     console.log(acc);
+//   }
+// }
