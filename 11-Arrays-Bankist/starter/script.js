@@ -93,11 +93,11 @@ createUsernames(accounts);
 
 // 153. (continued from below) Reduce Method
 
-const calcDisplayBalance = function (movements) {
-  const balance = movements.reduce((acc, mov) => {
+const calcDisplayBalance = function (acc) {
+  acc.balance = acc.movements.reduce((acc, mov) => {
     return acc + mov;
   }, 0);
-  labelBalance.textContent = `$ ${balance} USD`;
+  labelBalance.textContent = `$ ${acc.balance} USD`;
 };
 
 // 155. (continued from below) The Magic of Chaining Methods
@@ -124,6 +124,16 @@ const calcDisplaySummary = function (acc) {
   labelSumInterest.textContent = `$${interest}`;
 };
 
+const updateUI = function (acc) {
+  // display movements
+  displayMovements(acc.movements);
+  // display balance
+  calcDisplayBalance(acc);
+  // display summary
+  calcDisplaySummary(acc);
+};
+
+////// EVENT HANDLERS \\\\\\
 // 158. Implementing Login
 let currentAccount;
 
@@ -144,14 +154,54 @@ btnLogin.addEventListener(`click`, function (e) {
     // clear input fields
     inputLoginUsername.value = inputLoginPin.value = ` `;
     inputLoginPin.blur();
-    // display movements
-    displayMovements(currentAccount.movements);
-    // display balance
-    calcDisplayBalance(currentAccount.movements);
-    // display summary
-    calcDisplaySummary(currentAccount);
+    // Update UI
+    updateUI(currentAccount);
   }
 });
+
+// 159. Implementing Transfers
+btnTransfer.addEventListener(`click`, function (e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const receiverAccount = accounts.find(
+    (acc) => acc.username === inputTransferTo.value
+  );
+  inputTransferAmount.value = inputTransferTo.value = ` `;
+
+  if (
+    amount > 0 &&
+    receiverAccount &&
+    currentAccount.balance >= amount &&
+    receiverAccount?.username !== currentAccount.username
+  ) {
+    // Doing the transfer
+    currentAccount.movements.push(-amount);
+    receiverAccount.movements.push(amount);
+    updateUI(currentAccount);
+  }
+});
+
+// 160. The findIndex method
+btnClose.addEventListener(`click`, function (e) {
+  e.preventDefault();
+
+  if (
+    inputCloseUsername.value === currentAccount.username &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    const index = accounts.findIndex(
+      (acc) => acc.username === currentAccount.username
+    );
+
+    // Delete Account
+    accounts.splice(index, 1);
+  }
+  // Hide UI
+  containerApp.style.opacity = 0;
+  inputCloseUsername.value = inputClosePin.value = ` `;
+  labelWelcome.textContent = `Log in to get started`;
+});
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
