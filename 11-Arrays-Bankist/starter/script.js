@@ -63,9 +63,11 @@ const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
 // 147. Creating DOM Elements
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = ` `;
-  movements.forEach(function (mov, i) {
+
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  movs.forEach(function (mov, i) {
     const type = mov > 0 ? `deposit` : `withdrawal`;
 
     const html = `<div class="movements__row">
@@ -200,6 +202,33 @@ btnClose.addEventListener(`click`, function (e) {
   containerApp.style.opacity = 0;
   inputCloseUsername.value = inputClosePin.value = ` `;
   labelWelcome.textContent = `Log in to get started`;
+});
+
+// 161. (Continued from below) The Some and Every Method
+btnLoan.addEventListener(`click`, function (e) {
+  e.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+
+  if (
+    amount > 0 &&
+    currentAccount.movements.some((mov) => mov >= amount * 0.01)
+  ) {
+    // Add movement
+    currentAccount.movements.push(amount);
+
+    //Update UI
+    updateUI(currentAccount);
+  }
+  inputLoanAmount.value = ` `;
+});
+
+// 163. (continued from below) Sorting Arrays
+let sorted = false;
+btnSort.addEventListener(`click`, function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
 });
 
 /////////////////////////////////////////////////
@@ -553,3 +582,190 @@ checkDogs(dogsJulia, dogsKate); */
 //     console.log(acc);
 //   }
 // }
+
+// 161. Some and Every Method
+// the includes method searches for the exact value
+// the some method searches for the condition stated
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// // INCLUDES: EQUALITY
+// console.log(movements.includes(-130)); // checks for equality
+
+// // SOME: CONDITION
+// console.log(movements.some((mov) => mov === -130));
+
+// const anyDeposits = movements.some((mov) => mov > 5000); // checks for a condition
+// console.log(anyDeposits);
+
+// // EVERY
+// console.log(movements.every((mov) => mov > 0));
+// console.log(account4.movements.every((mov) => mov > 0));
+
+// Seperate Call back function
+// We can create a global function and call it as the call back function of any of the methods below
+// const deposit = (mov) => mov > 0;
+// console.log(movements.some(deposit));
+// console.log(movements.every(deposit));
+// console.log(movements.filter(deposit));
+
+// // 162. Flat and flatMap
+// const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+// console.log(arr.flat());
+
+// const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+// console.log(arrDeep.flat(2));
+
+// // Flat
+// const overallBalance = accounts
+//   .map((acc) => acc.movements)
+//   .flat()
+//   .reduce((acc, mov) => acc + mov, 0);
+// console.log(overallBalance);
+
+// flatMap
+// flatMap only flattens 1 array deep, if more arrays are nested then flat needs to be used
+// const overallBalance2 = accounts
+//   .flatMap((acc) => acc.movements)
+//   .reduce((acc, mov) => acc + mov, 0);
+// console.log(overallBalance2);
+
+// 163. Sorting Arrays
+// Strings
+// const owners = [`Jonas`, `Zack`, `Adam`, `Martha`];
+// console.log(owners.sort());
+// // the sort method mutates the original array
+// console.log(owners);
+
+// // Numbers
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// console.log(movements);
+// console.log(movements.sort());
+
+// Return < 0, A comes before B (keep order)
+// Return > 0, B comes before A (switch order)
+
+// ASCENDING ORDER
+// movements.sort((a, b) => {
+//   // a is current value
+//   // b is the next value
+//   if (a > b) {
+//     return 1;
+//   }
+//   if (b > a) {
+//     return -1;
+//   }
+// });
+
+// Alternative way
+// movements.sort((a, b) => a - b);
+
+// // DESCENDING ORDER
+// movements.sort((a, b) => {
+//   // a is current value
+//   // b is the next value
+//   if (a > b) {
+//     return -1;
+//   }
+//   if (b > a) {
+//     return 1;
+//   }
+// });
+
+// Alternative way
+// movements.sort((a, b) => b - a);
+
+// 164. More Ways of Creating and Filling Arrays
+// Empty Arrays
+const x = new Array(7);
+console.log(x); // creates an array with 7 empty elements
+
+// Fill method (it will mutate the array)
+// x.fill(1);
+x.fill(1, 3); // will fill after the 3rd index with 1
+console.log(x);
+
+const arr = [1, 2, 3, 4, 5, 6, 7];
+arr.fill(23, 4, 6);
+console.log(arr); // [1,2,3]
+
+// Array.from method
+const y = Array.from({ length: 7 }, () => 1);
+console.log(y); // [1,1,1,1,1,1,1];
+
+const z = Array.from({ length: 7 }, (_, i) => i + 1);
+console.log(z); // [1,2,3,4,5,6,7];
+
+// const diceRoll = Array.from({ length: 100 }, (num) =>
+//   Math.floor(Math.random(num) * 7)
+// );
+
+// console.log(diceRoll);
+
+labelBalance.addEventListener(`click`, function () {
+  const movementsUI = Array.from(
+    document.querySelectorAll(`.movements__value`),
+    (el) => Number(el.textContent.replace(`$`, ` `))
+  );
+  console.log(movementsUI);
+});
+
+// 165. Summary: Which Array Method to Use
+// Ask the question, do I want to:
+
+// mutate the original array?
+//// -- Add to original array -- \\\\
+// .push (to the end)
+// .unshift (to the start)
+//// -- Remove from the original array -- \\\\
+// .pop (at the end)
+// .shift (at the start)
+// .splice (any)
+//// -- Others -- \\\\
+// .reverse
+// .sort
+// .fill
+
+// create a new array?
+//// -- Computed from original array -- \\\\
+// .map (loop)
+//// -- Filterd using a condition -- \\\\
+// .filter
+//// -- Portion of the original array -- \\\\
+// .slice
+//// -- Adding original to the other array -- \\\\
+// .concat
+//// -- Flattening the original array -- \\\\
+// .flat
+// .flatMap
+
+// get an array index?
+//// -- Based on the value of the array -- \\\\
+// .indexOf
+//// -- Based on test condition -- \\\\
+// .findIndex
+
+// get an array element?
+//// -- Based on test condition -- \\\\
+// .find
+
+// know if an array includes a certain element?
+//// -- Based on value of the array -- \\\\
+// .includes
+//// -- Based on test condition -- \\\\
+// .some (if 1 element is true based on condition set)
+// .every (if all elements are true based on condition set)
+// includes, some, and every all return boolean values
+
+// transform an array into a string?
+//// -- Based on seperator string -- \\\\
+// .join
+
+// transform the new array to a value?
+//// -- Based on accumulator --  \\\\
+// .reduce
+// (boil array down to a single value of any type:
+// number, string, boolean, or even a new array or object)
+
+// loop over the array?
+//// -- Based on callback -- \\\\
+// .forEach
+// (does not create a new array, just loops over it)
