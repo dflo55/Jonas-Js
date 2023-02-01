@@ -191,16 +191,42 @@ const updateUI = function (acc) {
   calcDisplaySummary(acc);
 };
 
+const startLogOutTimer = function () {
+  const tick = function () {
+    const min = String(Math.trunc(time / 60)).padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
+    // In each call, print remaining time to UI
+    labelTimer.textContent = `${min}:${sec}`;
+
+    // when time is 0 seconds, stop timer and log out user
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = `Log in to get started`;
+      containerApp.style.opacity = 0;
+    }
+    // Decrease 1 second
+    time = time - 1; // time--
+  };
+
+  // Set time to 5 minutes
+  let time = 300;
+
+  // call the timer every second
+  tick();
+  const timer = setInterval(tick, 1000);
+  return timer;
+};
+
 ///////////////////////////////////////
 // Event handlers
-let currentAccount;
+let currentAccount, timer;
 
 // FAKE ALWAYS LOGGED IN
-currentAccount = account1;
-updateUI(currentAccount);
-containerApp.style.opacity = 100;
+// currentAccount = account1;
+// updateUI(currentAccount);
+// containerApp.style.opacity = 100;
 
-// Experimenting API
+// // Experimenting API
 // const now = new Date();
 // const options = {
 //   hour: `numeric`,
@@ -258,6 +284,12 @@ btnLogin.addEventListener("click", function (e) {
     inputLoginUsername.value = inputLoginPin.value = "";
     inputLoginPin.blur();
 
+    // Timer
+    if (timer) {
+      clearInterval(timer);
+    }
+
+    timer = startLogOutTimer();
     // Update UI
     updateUI(currentAccount);
   }
@@ -286,6 +318,10 @@ btnTransfer.addEventListener("click", function (e) {
     receiverAcc.movementsDates.push(new Date().toISOString());
     // Update UI
     updateUI(currentAccount);
+
+    // Reset Timer
+    clearInterval(timer);
+    timer = startLogOutTimer();
   }
 });
 
@@ -298,14 +334,20 @@ btnLoan.addEventListener("click", function (e) {
     amount > 0 &&
     currentAccount.movements.some((mov) => mov >= amount * 0.1)
   ) {
-    // Add movement
-    currentAccount.movements.push(amount);
+    setTimeout(function () {
+      // Add movement
+      currentAccount.movements.push(amount);
 
-    // Add Loan Date
-    currentAccount.movementsDates.push(new Date().toISOString());
+      // Add Loan Date
+      currentAccount.movementsDates.push(new Date().toISOString());
 
-    // Update UI
-    updateUI(currentAccount);
+      // Update UI
+      updateUI(currentAccount);
+
+      // Reset Timer
+      clearInterval(timer);
+      timer = startLogOutTimer();
+    }, 2500);
   }
   inputLoanAmount.value = "";
 });
@@ -592,3 +634,26 @@ console.log(days1); // 10 days
 //   `Browser: `,
 //   new Intl.NumberFormat(navigator.language, options).format(num)
 // );
+//
+//
+// 180. Timers: setTimeout and setInterval
+// setTimeout - sets a function to run after specified time but callback function is executed once
+// const ingredients = [`olives`, `spinach`];
+// const pizzaTimer = setTimeout(
+//   (ing1, ing2) => console.log(`Here is your pizza with ${ing1} and ${ing2}`),
+//   3000,
+//   ...ingredients
+// );
+// console.log(`waiting`);
+// if (ingredients.includes(`spinach`)) {
+//   clearTimeout(pizzaTimer);
+// }
+//
+// setInterval
+// setInterval(function () {
+//   const now = new Date();
+//   const hours = now.getHours();
+//   const min = now.getMinutes();
+//   const seconds = now.getSeconds();
+//   console.log(`The time is ${hours}:${min}:${seconds}`);
+// }, 1000);
