@@ -203,7 +203,7 @@ headerObserver.observe(header);
 const allSections = document.querySelectorAll(`.section`);
 const revealSection = function (entries, observer) {
   const [entry] = entries;
-  console.log(entry);
+  // console.log(entry);
 
   if (!entry.isIntersecting) return;
 
@@ -220,6 +220,75 @@ allSections.forEach(function (section) {
   sectionObserver.observe(section);
   section.classList.add(`section--hidden`);
 });
+
+// 199. Lazy Loading Images
+const imgTargets = document.querySelectorAll(`img[data-src]`);
+
+const loadImg = function (entries, observer) {
+  const [entry] = entries;
+  // console.log(entry);
+
+  if (!entry.isIntersecting) return;
+
+  // Replace source attribute with data-src
+  entry.target.src = entry.target.dataset.src;
+
+  entry.target.addEventListener(`load`, function () {
+    entry.target.classList.remove(`lazy-img`);
+  });
+
+  observer.unobserve(entry.target);
+};
+
+const imgObserver = new IntersectionObserver(loadImg, {
+  root: null,
+  threshold: 0,
+  rootMargin: `200px`,
+});
+
+imgTargets.forEach((img) => imgObserver.observe(img));
+
+// 200. Building a Slider Component: Part 1
+const slides = document.querySelectorAll(`.slide`);
+const btnLeft = document.querySelector(`.slider__btn--left`);
+const btnRight = document.querySelector(`.slider__btn--right`);
+
+let curSlide = 0;
+const maxSlide = slides.length;
+
+// const slider = document.querySelector(`.slider`);
+
+// slider.style.transform = `scale(0.4) translateX(-800px)`;
+// slider.style.overflow = `visible`;
+
+const goToSlide = function (slide) {
+  slides.forEach(
+    (s, i) => (s.style.transform = `translateX(${100 * (i - slide)}%)`)
+  );
+};
+goToSlide(0);
+
+// Next Slide
+const nextSlide = function () {
+  if (curSlide === maxSlide - 1) {
+    curSlide = 0;
+  } else {
+    curSlide++;
+  }
+  goToSlide(curSlide);
+};
+
+const prevSlide = function () {
+  if (curSlide === 0) {
+    curSlide = maxSlide - 1;
+  } else {
+    curSlide--;
+  }
+  goToSlide(curSlide);
+};
+
+btnRight.addEventListener(`click`, nextSlide);
+btnLeft.addEventListener(`click`, prevSlide);
 ///////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////
