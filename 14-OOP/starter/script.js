@@ -1,4 +1,5 @@
 "use strict";
+//
 // 206. What is Object-Oriented Programming?
 // OOP
 // Class is like a blueprint which we can create new objects
@@ -39,3 +40,59 @@
 //
 // 3. Object.create() - The easiest and most straightforward way of linking an object
 // to a prototype object.
+//
+// 208. Constructor Functions and the new Operator
+// Constructor Function
+const Person = function (firstName, birthYear) {
+  // Instance properties
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+
+  // Never do this(put methods in constructor function)
+  //   this.calcAge = function(){
+  //     console.log(2037 - this.birthYearbirthYear)
+  //   }
+};
+
+const david = new Person(`David`, 1995);
+console.log(david);
+// david is an instance of Person
+// 4 Steps that occur when calling function with new operator
+// 1. Empty Object is created
+// 2. Function is called, "this" keyword becomes the new empty object
+// 3. new object is linked to protoype
+// 4. Function automatically returns the empty object from the beginning
+
+const matilda = new Person(`Matilda`, 2017);
+const jack = new Person(`Jack`, 1965);
+console.log(matilda, jack);
+
+console.log(david instanceof Person); // true
+// console.log(jay instanceof Person); // false
+
+// 209. Prototypes
+console.log(Person.prototype);
+
+// Setting prototype methods onto the constructor function
+Person.prototype.calcAge = function () {
+  console.log(2037 - this.birthYear);
+};
+
+// Very basic prototypal inheritance
+david.calcAge();
+matilda.calcAge();
+jack.calcAge();
+
+// davids prototype is the prototype property of the Person constructor function
+console.log(david.__proto__);
+// The prototype of the david object is the prototype property of the constructor function
+console.log(david.__proto__ === Person.prototype); // true
+
+console.log(Person.prototype.isPrototypeOf(david)); // true
+console.log(Person.prototype.isPrototypeOf(matilda)); // true
+console.log(Person.prototype.isPrototypeOf(Person)); // false
+// .prototype is like .prototypeOfLinkedObjects
+
+// Setting prototype properties onto the constructor function
+Person.prototype.species = `Homo Sapiens`;
+console.log(david.species, matilda.species); // get access to the prototype property
