@@ -71,24 +71,37 @@ console.log(david instanceof Person); // true
 // console.log(jay instanceof Person); // false
 
 // 209. Prototypes
+// Every function in JS has a property called prototype including constructor functions
+// Every object created by the constructor function will get access to all the methods
+// and properties that we define on the constructor's prototype property
 console.log(Person.prototype);
+//
 
 // Setting prototype methods onto the constructor function
+// Any object created with the Person constructor function will get access to
+// the constructor functions prototype property/methods (calcAge)
 Person.prototype.calcAge = function () {
   console.log(2037 - this.birthYear);
 };
 
 // Very basic prototypal inheritance
+// The objects inherit the calcAge method from the constructor function's prototype
+// The prototype of the objects below are Person.prototype
 david.calcAge();
 matilda.calcAge();
 jack.calcAge();
 
 // davids prototype is the prototype property of the Person constructor function
+// Below we see david's prototype by using .__proto__
 console.log(david.__proto__);
 // The prototype of the david object is the prototype property of the constructor function
 console.log(david.__proto__ === Person.prototype); // true
+// Person.prototype is not the prototype of Person. It is whats going to be used
+// as the prototype of all the objects that are created with the Peron
+// constructor function
 
 console.log(Person.prototype.isPrototypeOf(david)); // true
+// Person.prototype is indeed the prototype of david
 console.log(Person.prototype.isPrototypeOf(matilda)); // true
 console.log(Person.prototype.isPrototypeOf(Person)); // false
 // .prototype is like .prototypeOfLinkedObjects
@@ -96,3 +109,32 @@ console.log(Person.prototype.isPrototypeOf(Person)); // false
 // Setting prototype properties onto the constructor function
 Person.prototype.species = `Homo Sapiens`;
 console.log(david.species, matilda.species); // get access to the prototype property
+
+console.log(david.hasOwnProperty(`firstName`)); // true - its inside the object
+console.log(david.hasOwnProperty(`species`)); // false - outside of object but has access
+//
+// 210. Prototypal Inheritance and The Prototype Chain
+//
+// 211. Prototypal Inheritcance on Built-In Objects
+console.log(david.__proto__); // Person
+// Object.prototype (top of prototype chain)
+console.log(david.__proto__.__proto__); // Object
+console.log(david.__proto__.__proto__.__proto__); // null
+
+console.log(Person.prototype.constructor); // will point to the function itself
+console.dir(Person.prototype.constructor); // points back to person
+
+const arr = [3, 6, 6, 5, 6, 9, 9];
+console.log(arr.__proto__);
+console.log(arr.__proto__ === Array.prototype); // true
+
+console.log(arr.__proto__.__proto__); // points back to object.prototype
+
+// Dont do this
+Array.prototype.unique = function () {
+  return [...new Set(this)];
+};
+console.log(arr.unique());
+
+const h1 = document.querySelector(`h1`);
+console.dir((x) => x + 1);
