@@ -603,47 +603,209 @@ jay.calcAge();
 
 // 223. Encapsulation: Protected Properties and Methods
 // using underscore on stuff we want protected, not accessible from outside
+// class Account {
+//   constructor(owner, curr, pin) {
+//     this.owner = owner;
+//     this.curr = curr;
+//     this._pin = pin;
+//     // Protected Property (_movements)
+//     this._movements = [];
+//     this.locale = navigator.language;
+
+//     console.log(`Thanks for opening an account, ${owner}`);
+//   }
+
+//   // Public interface
+//   getMovements() {
+//     return this._movements;
+//   }
+
+//   deposit(val) {
+//     this._movements.push(val);
+//   }
+
+//   withdraw(val) {
+//     this.deposit(-val);
+//   }
+
+//   _approvedLoan(val) {
+//     return true;
+//   }
+
+//   requestLoan(val) {
+//     if (this.approvedLoan(val)) {
+//       this.deposit(val);
+//       console.log(`Loan approved`);
+//     }
+//   }
+// }
+
+// const account1 = new Account(`Jonas`, `EUR`, 1111);
+// console.log(account1);
+
+// account1.deposit(250);
+// account1.withdraw(140);
+
+// console.log(account1.getMovements());
+//
+//
+// 224. Encapsulation: Private Class Fields(properties) and Methods
+
+// 1) Public Fields
+// 2) Private Fields
+// 3) Public Methods
+// 4) Private Methods
+// there is also the static version
+
 class Account {
+  // 1) Public Fields (only on instances)
+  locale = navigator.language;
+
+  // 2) Private Fields (only on instances, not prototype)
+  #movements = [];
+  #pin;
+
   constructor(owner, curr, pin) {
     this.owner = owner;
     this.curr = curr;
-    this._pin = pin;
+    this.#pin = pin;
     // Protected Property (_movements)
-    this._movements = [];
-    this.locale = navigator.language;
+    // this._movements = [];
+    // this.locale = navigator.language;
 
     console.log(`Thanks for opening an account, ${owner}`);
   }
 
+  // 3) Public Methods
+
   // Public interface
   getMovements() {
-    return this._movements;
+    return this.#movements;
   }
 
   deposit(val) {
-    this._movements.push(val);
+    this.#movements.push(val);
+    return this;
   }
 
   withdraw(val) {
     this.deposit(-val);
-  }
-
-  _approvedLoan(val) {
-    return true;
+    return this;
   }
 
   requestLoan(val) {
-    if (this.approvedLoan(val)) {
+    // if (this.#approvedLoan(val)) {
+    if (this._approvedLoan(val)) {
       this.deposit(val);
       console.log(`Loan approved`);
+      return this;
     }
+  }
+
+  static helper() {
+    console.log(`Helper`);
+  }
+  // 4) Private Methods
+  // #approvedLoan(val){
+  _approvedLoan(val) {
+    return true;
   }
 }
 
 const account1 = new Account(`Jonas`, `EUR`, 1111);
-console.log(account1);
 
-account1.deposit(250);
-account1.withdraw(140);
+// 225. Chaining Methods (refer to code above)
+account1
+  .deposit(300)
+  .deposit(500)
+  .withdraw(35)
+  .requestLoan(25000)
+  .withdraw(4000);
 
-console.log(account1.getMovements());
+// 227. Coding Challenge #4
+//   Coding Challenge #4
+// Your tasks:
+// 1. Re-create Challenge #3, but this time using ES6 classes: create an 'EVCl'
+// child class of the 'CarCl' class
+// 2. Make the 'charge' property private
+// 3. Implement the ability to chain the 'accelerate' and 'chargeBattery'
+// methods of this class, and also update the 'brake' method in the 'CarCl'
+// class. Then experiment with chaining!
+// Test data:
+// § Data car 1: 'Rivian' going at 120 km/h, with a charge of 23%
+
+class CarCl {
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
+
+  accelerate() {
+    this.speed += 10;
+    console.log(`${this.make} is going at ${this.speed}km/h`);
+    return this;
+  }
+
+  brake() {
+    this.speed -= 5;
+    console.log(`${this.make} is going at ${this.speed}km/h`);
+    return this;
+  }
+
+  get speedUS() {
+    return this.speed / 1.6;
+  }
+
+  set speedUS(speed) {
+    this.speed = speed * 1.6;
+  }
+}
+
+class EVCl extends CarCl {
+  #charge;
+
+  constructor(make, speed, charge) {
+    super(make, speed);
+    this.#charge = charge;
+  }
+
+  chargeBattery(chargeTo) {
+    this.#charge = chargeTo;
+    return this;
+  }
+
+  accelerate() {
+    this.speed += 20;
+    this.#charge -= 1;
+    console.log(
+      `${this.make} is going at ${this.speed}km/h, with a charge of ${
+        this.#charge
+      }%`
+    );
+    return this;
+  }
+}
+
+const rivian = new EVCl(`Rivian`, 120, 23);
+rivian.chargeBattery(50).accelerate().brake().accelerate();
+console.log(rivian);
+
+// const EV = function (make, speed, charge) {
+//   Car.call(this, make, speed);
+//   this.charge = charge;
+// };
+
+// Link the prototypes
+// EV.prototype = Object.create(Car.prototype);
+
+// EV.prototype.chargeBattery = function (chargeTo) {
+//   this.charge = chargeTo;
+// };
+
+// EV.prototype.accelerate = function () {
+//   this.speed += 20;
+//   this.charge -= 1;
+//   console.log(
+//     `${this.make} is going at ${this.speed}km/h, with a charge of ${this.charge}%`
+//   );
+// };
