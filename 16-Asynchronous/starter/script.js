@@ -341,3 +341,249 @@ const renderError = function (msg) {
 // whereAmI(-33.933, 18.474);
 
 // 257. Asynchronous Behind the Scenes: The Event Loop
+
+// 258. The Event Loop in Practice
+// console.log(`Test Start`); // finishes 1st
+// setTimeout(() => console.log(`0 sec timer`), 0); // finishes 4th
+// Promise.resolve(`Resolved promise 1`).then((res) => console.log(res)); // finishes 3rd
+// console.log(`Test End`); // finishes 2nd
+
+// Promise.resolve(`Resolved promise 2`).then((res) => {
+//   for (let i = 0; i < 10000; i++) {}
+
+//   console.log(res);
+// });
+
+// 259. Building a Simple Promise
+// const lotteryPromise = new Promise(function (resolve, reject) {
+//   console.log(`Lottery draw is happening`);
+//   setTimeout(function () {
+//     if (Math.random() >= 0.5) {
+//       resolve(`You WIN!`); // will mark promise fullfilled
+//     } else {
+//       reject(new Error(`You lost your money :(`));
+//     }
+//   }, 2000);
+// });
+
+// lotteryPromise
+//   .then((res) => console.log(res))
+//   .catch((err) => console.error(err));
+
+// Promisifying setTimeout (real world example)
+// const wait = function (seconds) {
+//   return new Promise(function (resolve) {
+//     setTimeout(resolve, seconds * 1000);
+//   });
+// };
+
+// wait(2)
+//   .then(() => {
+//     console.log(`I waited for 2 seconds`);
+//     return wait(1);
+//   })
+//   .then(() => console.log(`I waited for 1 second`));
+
+// Promise.resolve(`abc`).then((res) => console.log(res));
+// Promise.reject(new Error(`Problem!`)).catch((err) => console.error(err));
+
+// 260. Promisifying the Geolocation API
+// const getPosition = function () {
+//   return new Promise(function (resolve, reject) {
+//     // navigator.geolocation.getCurrentPosition(
+//     //   (position) => resolve(position),
+//     //   (err) => reject(err)
+//     // );
+//     navigator.geolocation.getCurrentPosition(resolve, reject);
+//   });
+// };
+
+// const whereAmI = function () {
+//   getPosition()
+//     .then((pos) => {
+//       const { latitude: lat, longitude: lng } = pos.coords;
+//       return fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+//     })
+//     .then((response) => {
+//       if (!response.ok) throw new Error(`Problem with geocoding ${res.status}`);
+//       return response.json();
+//     })
+//     .then((data) => {
+//       console.log(data);
+//       console.log(`You are in ${data.city}, ${data.country}`);
+
+//       return fetch(`https://restcountries.com/v2/name/${data.country}`);
+//     })
+//     .then((response) => {
+//       if (!response.ok) throw new Error(`Country not found ${response.status}`);
+
+//       return response.json();
+//     })
+
+//     .then((data) => renderCountry(data[0]))
+//     .catch((err) => console.error(`${err.message} !@#@`));
+// };
+
+// btn.addEventListener(`click`, whereAmI);
+
+// Coding Challenge #2
+// For this challenge you will actually have to watch the video! Then, build the image
+// loading functionality that I just showed you on the screen.
+// Your tasks:
+// Tasks are not super-descriptive this time, so that you can figure out some stuff by
+// yourself. Pretend you're working on your own �
+// PART 1
+// 1. Create a function 'createImage' which receives 'imgPath' as an input.
+// This function returns a promise which creates a new image (use
+// document.createElement('img')) and sets the .src attribute to the
+// provided image path
+// 2. When the image is done loading, append it to the DOM element with the
+// 'images' class, and resolve the promise. The fulfilled value should be the
+// image element itself. In case there is an error loading the image (listen for
+// the'error' event), reject the promise
+// 3. If this part is too tricky for you, just watch the first part of the solution
+// PART 2
+// 4. Consume the promise using .then and also add an error handler
+// 5. After the image has loaded, pause execution for 2 seconds using the 'wait'
+// function we created earlier
+// 6. After the 2 seconds have passed, hide the current image (set display CSS
+// property to 'none'), and load a second image (Hint: Use the image element
+// returned by the 'createImage' promise to hide the current image. You will
+// need a global variable for that �)
+// 7. After the second image has loaded, pause execution for 2 seconds again
+// 8. After the 2 seconds have passed, hide the current image
+// Test data: Images in the img folder. Test the error handler by passing a wrong
+// image path. Set the network speed to “Fast 3G” in the dev tools Network tab,
+// otherwise images load too fast
+
+// const wait = function (seconds) {
+//   return new Promise(function (resolve) {
+//     setTimeout(resolve, seconds * 1000);
+//   });
+// };
+
+// const imgContainer = document.querySelector(`.images`);
+
+// const createImage = function (imgPath) {
+//   return new Promise(function (resolve, reject) {
+//     const newImg = document.createElement(`img`);
+//     newImg.src = imgPath;
+
+//     newImg.addEventListener(`load`, function () {
+//       imgContainer.append(newImg);
+//       resolve(newImg);
+//     });
+
+//     newImg.addEventListener(`error`, function () {
+//       reject(new Error(`Image not found`));
+//     });
+//   });
+// };
+
+// let currentImg;
+
+// createImage(`img/img-1.jpg`)
+//   .then((img) => {
+//     currentImg = img;
+//     console.log(`Image 1 loaded`);
+//     return wait(2);
+//   })
+//   .then(() => {
+//     currentImg.style.display = `none`;
+//     return createImage(`img/img-2.jpg`);
+//   })
+//   .then((img) => {
+//     currentImg = img;
+//     return wait(2);
+//   })
+//   .then(() => {
+//     currentImg.style.display = `none`;
+//   })
+//   .catch((err) => console.error(err));
+// createImage(`img/img-2.jpg`);
+
+// 262. Consuming Promises with Async/Await
+
+// const getPosition = function () {
+//   return new Promise(function (resolve, reject) {
+//     navigator.geolocation.getCurrentPosition(resolve, reject);
+//   });
+// };
+
+// const whereAmI = async function () {
+//   // Geolocation
+//   const pos = await getPosition();
+//   const { latitude: lat, longitude: lng } = pos.coords;
+//   console.log(lat, lng);
+//   //// Reverse Geocoding \\\\
+//   const responseGeo = await fetch(
+//     `https://geocode.xyz/${lat},${lng}?geoit=json`
+//   );
+//   const dataGeo = await responseGeo.json();
+//   console.log(dataGeo);
+
+//   //// Country Data \\\\
+//   // fetch(`https://restcountries.com/v2/name/${country}`).then((res) =>
+//   // console.log(res)
+//   // );
+//   // Same as Above
+//   const response = await fetch(
+//     `https://restcountries.com/v2/name/${dataGeo.country}`
+//   );
+//   const data = await response.json();
+//   console.log(data);
+//   renderCountry(data[0]);
+// };
+
+// whereAmI();
+// console.log(`FIRST`);
+
+// 263. Error Handling with try...catch
+// try {
+//   let y = 1;
+//   const x = 2;
+//   y = 3;
+// } catch (err) {
+//   alert(err.message);
+// }
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+const whereAmI = async function () {
+  try {
+    // Geolocation
+    const pos = await getPosition();
+    const { latitude: lat, longitude: lng } = pos.coords;
+    console.log(lat, lng);
+    //// Reverse Geocoding \\\\
+    const responseGeo = await fetch(
+      `https://geocode.xyz/${lat},${lng}?geoit=json`
+    );
+    if (!responseGeo.ok) throw new Error(`Problem getting location data`);
+
+    const dataGeo = await responseGeo.json();
+    console.log(dataGeo);
+
+    //// Country Data \\\\
+    // fetch(`https://restcountries.com/v2/name/${country}`).then((res) =>
+    // console.log(res)
+    // );
+    // Same as Above
+    const response = await fetch(
+      `https://restcountries.com/v2/name/${dataGeo.country}`
+    );
+    if (!response.ok) throw Error(`Problem getting country`);
+
+    const data = await response.json();
+    console.log(data);
+    renderCountry(data[0]);
+  } catch (err) {
+    console.error(err);
+    renderError(`Something went wrong :( ${err.message}`);
+  }
+};
+
+whereAmI();
