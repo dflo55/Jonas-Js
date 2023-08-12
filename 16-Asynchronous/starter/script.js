@@ -314,31 +314,31 @@ const renderError = function (msg) {
 // § Coordinates 2: 19.037, 72.873
 // § Coordinates 3: -33.933, 18.474
 
-const whereAmI = function (lat, lng) {
-  fetch(`https://geocode.xyz/${lat},${lng}?json=1 `)
-    .then((response) => {
-      console.log(response);
-      if (!response.ok)
-        throw new Error(`Problem with geocoding ${response.status}`);
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data, `You are in ${data.city}, ${data.country}`);
+// const whereAmI = function (lat, lng) {
+//   fetch(`https://geocode.xyz/${lat},${lng}?json=1 `)
+//     .then((response) => {
+//       console.log(response);
+//       if (!response.ok)
+//         throw new Error(`Problem with geocoding ${response.status}`);
+//       return response.json();
+//     })
+//     .then((data) => {
+//       console.log(data, `You are in ${data.city}, ${data.country}`);
 
-      return fetch(`https://restcountries.com/v2/name/${data.country}`)
-        .then((response) => {
-          if (!response.ok)
-            throw new Error(`Country not found ${response.status}`);
+//       return fetch(`https://restcountries.com/v2/name/${data.country}`)
+//         .then((response) => {
+//           if (!response.ok)
+//             throw new Error(`Country not found ${response.status}`);
 
-          return response.json();
-        })
-        .then((data) => renderCountry(data[0]));
-    })
-    .catch((err) => console.error(err.message));
-};
-whereAmI(52.508, 13.381);
-whereAmI(19.037, 72.873);
-whereAmI(-33.933, 18.474);
+//           return response.json();
+//         })
+//         .then((data) => renderCountry(data[0]));
+//     })
+//     .catch((err) => console.error(err.message));
+// };
+// whereAmI(52.508, 13.381);
+// whereAmI(19.037, 72.873);
+// whereAmI(-33.933, 18.474);
 
 // const whereAmI = function (lat, lng) {
 //   fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
@@ -482,6 +482,52 @@ whereAmI(-33.933, 18.474);
 // image path. Set the network speed to “Fast 3G” in the dev tools Network tab,
 // otherwise images load too fast
 
+const imgContainer = document.querySelector(`.images`);
+
+// const createImage = function (imgPath) {
+//   return new Promise(function (resolve, reject) {
+//     const img = document.createElement(`img`);
+//     img.src = imgPath;
+
+//     img.addEventListener(`load`, function () {
+//       imgContainer.append(img);
+//       resolve(img);
+//     });
+//     img.addEventListener(`error`, function () {
+//       reject(new Error(`Image not found`));
+//     });
+//   });
+// };
+
+// let currentImg;
+
+// createImage(`img/img-1.jpg`)
+//   .then((img) => {
+//     currentImg = img;
+//     return wait(2);
+//   })
+//   .then(() => {
+//     currentImg.style.display = `none`;
+//     return createImage(`img/img-2.jpg`);
+//   })
+//   .then((img) => {
+//     currentImg = img;
+//     return wait(2);
+//   })
+//   .then(() => {
+//     currentImg.style.display = `none`;
+//     return createImage(`img/img-3.jpg`);
+//   })
+//   .then((img) => {
+//     currentImg = img;
+//     return wait(2);
+//   })
+//   .then(() => {
+//     currentImg.style.display = `none`;
+//     return wait(2);
+//   })
+//   .catch((err) => console.error(err));
+
 // const wait = function (seconds) {
 //   return new Promise(function (resolve) {
 //     setTimeout(resolve, seconds * 1000);
@@ -617,14 +663,13 @@ whereAmI(-33.933, 18.474);
 // 264. Returning Values from Asyc Functions
 
 // 265. Running Promises in Parallel
+const getJSON = function (url, errorMsg = `Something went wrong`) {
+  return fetch(url).then((response) => {
+    if (!response.ok) throw new Error(`${errorMsg} ${response.status}`);
 
-// const getJSON = function (url, errorMsg = `Something went wrong`) {
-//   return fetch(url).then((response) => {
-//     if (!response.ok) throw new Error(`${errorMsg} ${response.status}`);
-
-//     return response.json();
-//   });
-// };
+    return response.json();
+  });
+};
 
 // const get3Countries = async function (c1, c2, c3) {
 //   try {
@@ -649,7 +694,6 @@ whereAmI(-33.933, 18.474);
 // get3Countries(`portugal`, `canada`, `mexico`);
 
 // 266. Other Promise Combinators: race, allSettled and any
-
 // Promise.race
 // (async function () {
 //   const response = await Promise.race([
@@ -712,6 +756,85 @@ whereAmI(-33.933, 18.474);
 // 4. Use a promise combinator function to actually get the images from the array �
 // 5. Add the 'parallel' class to all the images (it has some CSS styles)
 // Test data Part 2: ['img/img-1.jpg', 'img/img-2.jpg', 'img/img3.jpg']. To test, turn off the 'loadNPause' function
+
+const createImage = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    const img = document.createElement(`img`);
+    img.src = imgPath;
+
+    img.addEventListener(`load`, function () {
+      imgContainer.append(img);
+      resolve(img);
+    });
+    img.addEventListener(`error`, function () {
+      reject(new Error(`Image not found`));
+    });
+  });
+};
+
+const loadAll = async function (imgArr) {
+  try {
+    const imgs = imgArr.map(async (img) => await createImage(img));
+    console.log(imgs);
+
+    const imgsEl = await Promise.all(imgs);
+    console.log(imgsEl);
+
+    imgsEl.forEach((img) => img.classList.add(`parallel`));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+loadAll(["img/img-1.jpg", "img/img-2.jpg", "img/img-3.jpg"]);
+
+// createImage(`img/img-1.jpg`)
+//   .then((img) => {
+//     currentImg = img;
+//     return wait(2);
+//   })
+//   .then(() => {
+//     currentImg.style.display = `none`;
+//     return createImage(`img/img-2.jpg`);
+//   })
+//   .then((img) => {
+//     currentImg = img;
+//     return wait(2);
+//   })
+//   .then(() => {
+//     currentImg.style.display = `none`;
+//     return createImage(`img/img-3.jpg`);
+//   })
+//   .then((img) => {
+//     currentImg = img;
+//     return wait(2);
+//   })
+//   .then(() => {
+//     currentImg.style.display = `none`;
+//     return wait(2);
+//   })
+//   .catch((err) => console.error(err));
+
+// const loadNPause = async function () {
+//   try {
+//     let img = await createImage(`img/img-1.jpg`);
+//     console.log(`Image 1 loaded`);
+//     await wait(2);
+//     img.style.display = `none`;
+
+//     img = await createImage(`img/img-2.jpg`);
+//     console.log(`Image 2 loaded`);
+//     await wait(2);
+//     img.style.display = `none`;
+
+//     img = await createImage(`img/img-3.jpg`);
+//     console.log(`Image 3 loaded`);
+//     await wait(2);
+//     img.style.display = `none`;
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
 
 // const wait = function (seconds) {
 //   return new Promise(function (resolve) {
