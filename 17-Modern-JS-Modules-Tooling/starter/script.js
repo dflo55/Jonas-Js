@@ -36,3 +36,54 @@ console.log(lastPost);
 
 const lastPost2 = await getLastPost();
 console.log(lastPost2);
+
+// 274. The Module Pattern
+const shoppingCart2 = (function () {
+  const cart = [];
+  const shippingCost = 10;
+  const totalPrice = 237;
+  const totalQuantity = 23;
+
+  const addToCart = function (product, quantity) {
+    cart.push({ product, quantity });
+    console.log(`${quantity} ${product} added to cart`);
+  };
+
+  const orderStock = function (product, quantity) {
+    cart.push({ product, quantity });
+    console.log(`${quantity} ${product} ordered from supplier`);
+
+    return {
+      addToCart,
+      cart,
+      totalPrice,
+      totalQuantity,
+    };
+  };
+})();
+
+shoppingCart2.addToCart(`apple`, 4);
+shoppingCart2.addToCart(`pizza`, 2);
+console.log(shoppingCart2);
+console.log(shoppingCart2.shippingCost);
+
+// 275. CommonJS Modules
+
+// 276. A Brief Introduction to the Command Line
+// cd = change directory
+// rm = remove a file
+// rmdir = remove a folder (must be empty)
+// mkdir = to create a new folder
+// touch = to create a file (touch index.html)
+// cd .. = goes back a directory
+// cd ../.. = goes back twice in directories
+//
+
+// 277. Introduction to NPM
+
+import cloneMap from "./node_modules/lodash-es/_cloneMap.js";
+
+// 278. Bundling with Parcel and NPM Scripts
+import cloneMap from "lodash-es";
+
+// 279. Configuring Babel and Polyfilling
