@@ -1,0 +1,16 @@
+{
+  "name": "forkify",
+  "version": "1.0.0",
+  "description": "recipe application",
+  "default": "index.html",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "author": "David Flores",
+  "license": "ISC",
+  "devDependencies": {
+    "sass": "^2.10.2",
+    "parcel": "^2.0.0-rc.0"
+  }
+}
