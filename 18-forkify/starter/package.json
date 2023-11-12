@@ -10,7 +10,11 @@
   "author": "David Flores",
   "license": "ISC",
   "devDependencies": {
-    "sass": "^2.10.2",
+    "@parcel/transformer-sass": "^2.10.2",
     "parcel": "^2.0.0-rc.0"
+  },
+  "dependencies": {
+    "core-js": "^3.33.2",
+    "regenerator-runtime": "^0.14.0"
   }
 }
